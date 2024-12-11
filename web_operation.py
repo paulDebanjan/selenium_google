@@ -38,15 +38,29 @@ def on_html_operation(file_path):
         html_doc = f.read()
     soup = BeautifulSoup(html_doc,'html.parser')
     
-
+    longest_option = ''
+    shortest_option = ''
     elements = soup.find_all('div', class_='lnnVSe')
     for element in elements:
+        # flag = 0
         title = element.find('div',class_='wM6W7d')
-        if title:
-            print(title.text)
+        # if title:
+            # print(title.text)
         description = element.find('div',class_='ClJ9Yb')
-        if description:
-            print(description.text)
-
-
-        
+        # if description:
+            # print(description.text)
+        if title and description:
+            if len(title.text) > 1 or len(description.text) > 1:
+                text = f"{title.text} {description.text}"
+                # if flag == 0:
+                #     shortest_option = text
+                if len(text) > len(longest_option):
+                    longest_option = text
+                # print(f'sortest option time: {shortest_option}, {len(shortest_option)}')
+                if not shortest_option or len(text) < len(shortest_option):
+                    # print(f"ver:{len(shortest_option)} tex: {len(text)}")
+                    shortest_option = text
+                print(f'full text: {text}')
+        # flag += 1
+    print(f"Longest path: {longest_option}")
+    print(f"shortest_option : {shortest_option}")
