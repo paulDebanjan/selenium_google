@@ -1,5 +1,7 @@
 from datetime import datetime as timesite
 from  openpyxl import load_workbook
+import web_operation
+
 
 excel_file_path = 'Excel.xlsx'
 
@@ -11,17 +13,15 @@ def get_day_name(number_formate_date):
 
 # operate all excel opeation from this function
 def excel_operation(day):
-    data_collected_column = 'C'
-    first_col = 3
-    workbook = load_workbook(excel_file_path)
-    selected_sheet = workbook[day]
-    last_column = len(selected_sheet[data_collected_column])
-    rng = selected_sheet[f"{data_collected_column}{first_col}:{data_collected_column}{last_column}"]
-    for cells in rng:
+    data_collected_column = 'C'                         # excel column name
+    first_col = 3                                       # excel column data featching start porsition
+    workbook = load_workbook(excel_file_path)           # loading excel file
+    selected_sheet = workbook[day]                      # selecting worksheet depend on day name
+    last_column = len(selected_sheet[data_collected_column])            # masurement column length for getting all data
+    rng = selected_sheet[f"{data_collected_column}{first_col}:{data_collected_column}{last_column}"]        # featching data
+    for cells in rng:                                                                                   # for print data
         for cell in cells:
-            print(cell.value)
-    # print(text)
-    # print(selected_sheet['B'])
+            web_operation.web_to_scripting_operation(cell.value)
 
 # main operation function
 def main():
