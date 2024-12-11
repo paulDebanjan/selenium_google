@@ -6,6 +6,9 @@ import time
 from bs4 import BeautifulSoup
 import os 
 
+from  openpyxl import load_workbook,Workbook
+
+
 def web_to_scripting_operation(query):
 
     file_path = 'data/scrapt.html'
@@ -28,16 +31,17 @@ def web_to_scripting_operation(query):
         with open(file_path,'a', encoding='utf-8') as f:
             f.write(scrapt_data)
     # Close the browser
-    on_html_operation(file_path)
+    longest_option, shortest_option = on_html_operation(file_path)
     if os.path.exists(file_path):
         os.remove(file_path) 
     driver.quit()
+    return longest_option, shortest_option
 
 def on_html_operation(file_path):
     with open(file_path,'r', encoding='utf-8') as f:
         html_doc = f.read()
     soup = BeautifulSoup(html_doc,'html.parser')
-    
+    pass
     longest_option = ''
     shortest_option = ''
     elements = soup.find_all('div', class_='lnnVSe')
@@ -62,5 +66,6 @@ def on_html_operation(file_path):
                     shortest_option = text
                 print(f'full text: {text}')
         # flag += 1
-    print(f"Longest path: {longest_option}")
-    print(f"shortest_option : {shortest_option}")
+    
+    return longest_option, shortest_option
+
